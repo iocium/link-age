@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Link-Age Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Link-Age Estimator</h1>
+    <p>Estimate the first-seen time of a domain or URL using open intelligence signals.</p>
+  </header>
+  <main>
+    <form id="age-form">
+      <label for="input">Domain or URL:</label>
+      <input type="text" id="input" placeholder="example.com" required />
+      <fieldset class="toggles">
+        <legend>Signals</legend>
+        <label><input type="checkbox" id="ct" checked /> Certificate Transparency</label>
+        <label><input type="checkbox" id="wayback" checked /> Wayback Machine</label>
+        <label><input type="checkbox" id="radar" checked /> Cloudflare Radar</label>
+        <label><input type="checkbox" id="safebrowsing" checked /> Google Safe Browsing</label>
+        <label><input type="checkbox" id="dns" /> Passive DNS (public only)</label>
+      </fieldset>
+      <fieldset class="keys">
+        <legend>Optional: Enhance with your own API keys</legend>
+        <label>Shodan API Key <input type="text" id="shodanKey" placeholder="shodan_..." /></label>
+        <label>urlscan.io API Key <input type="text" id="urlscanKey" placeholder="..." /></label>
+        <label>Censys API ID <input type="text" id="censysId" placeholder="..." /></label>
+        <label>Censys API Secret <input type="text" id="censysSecret" placeholder="..." /></label>
+      </fieldset>
+      <button type="submit">Estimate</button>
+    </form>
+    <section id="report"></section>
+  </main>
+  <footer>
+    <p class="note">This is a demo. For full accuracy, reliability, and export features, please use the <a href="https://github.com/iocium/link-age" target="_blank">Link-Age CLI or library</a>.</p>
+    <p><a href="https://github.com/iocium/link-age" target="_blank">GitHub</a> | <strong>No data is ever sent to our servers.</strong></p>
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
