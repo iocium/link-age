@@ -5,7 +5,11 @@ export class CTEstimator {
 
   async estimate(input: string): Promise<SignalResult> {
     const domain = new URL(input).hostname.replace(/^www\./, '');
-    const res = await fetch(`https://crt.sh/?q=${domain}&output=json`, {
+    const endpoint = `https://crt.sh/?q=${domain}&output=json`
+    const url = this.opts.corsProxy
+      ? this.opts.corsProxy + encodeURIComponent(endpoint)
+      : endpoint;
+    const res = await fetch(url, {
       headers: { 'User-Agent': this.opts.userAgent }
     });
     if (!res.ok) throw new Error(`CT log query failed with status ${res.status}`);

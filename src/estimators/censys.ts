@@ -9,7 +9,9 @@ export class CensysEstimator {
     if (!censysApiId || !censysApiSecret) throw new Error('Censys API credentials missing');
     const auth = Buffer.from(`${censysApiId}:${censysApiSecret}`).toString('base64');
     const endpoint = 'https://search.censys.io/api/v2/hosts/search?q=' + encodeURIComponent(domain)
-    const url = this.opts.corsProxy ? this.opts.corsProxy + encodeURIComponent(endpoint) : endpoint;
+    const url = this.opts.corsProxy
+      ? this.opts.corsProxy + encodeURIComponent(endpoint)
+      : endpoint;
     const res = await fetch(url, {
       headers: {
         Authorization: `Basic ${auth}`,

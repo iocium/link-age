@@ -8,7 +8,11 @@ export class ShodanEstimator {
     const key = this.opts.providerSecrets?.shodanApiKey;
     if (!key) throw new Error('Missing Shodan API key');
 
-    const res = await fetch(`https://api.shodan.io/dns/domain/${domain}?key=${key}`, {
+    const endpoint = `https://api.shodan.io/dns/domain/${domain}?key=${key}`
+    const url = this.opts.corsProxy
+      ? this.opts.corsProxy + encodeURIComponent(endpoint)
+      : endpoint;
+    const res = await fetch(url, {
       headers: { 'User-Agent': this.opts.userAgent }
     });
 

@@ -4,8 +4,12 @@ export class WaybackEstimator {
   constructor(private opts: any) {}
 
   async estimate(input: string): Promise<SignalResult> {
-    const url = new URL(input).toString();
-    const res = await fetch(`https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&limit=1&fl=timestamp&sort=asc`, {
+    const uri = new URL(input).toString();
+    const endpoint = `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(uri)}&output=json&limit=1&fl=timestamp&sort=asc`
+    const url = this.opts.corsProxy
+      ? this.opts.corsProxy + encodeURIComponent(endpoint)
+      : endpoint;
+    const res = await fetch(url, {
       headers: { 'User-Agent': this.opts.userAgent }
     });
     const data = await res.json();

@@ -7,7 +7,11 @@ export class UrlscanEstimator {
     const domain = new URL(input).hostname;
     const key = this.opts.providerSecrets?.urlscanApiKey;
     if (!key) throw new Error('Missing URLScan API key');
-    const res = await fetch(`https://urlscan.io/api/v1/search/?q=domain:${domain}`, {
+    const endpoint = `https://urlscan.io/api/v1/search/?q=domain:${domain}`
+    const url = this.opts.corsProxy
+      ? this.opts.corsProxy + encodeURIComponent(endpoint)
+      : endpoint;
+    const res = await fetch(url, {
       headers: {
         'API-Key': key,
         'User-Agent': this.opts.userAgent

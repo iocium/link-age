@@ -4,8 +4,12 @@ export class SafeBrowsingEstimator {
   constructor(private opts: any) {}
 
   async estimate(input: string): Promise<SignalResult> {
-    const url = new URL(input).hostname;
-    const res = await fetch(`https://transparencyreport.google.com/safe-browsing/search?url=${url}`, {
+    const uri = new URL(input).hostname;
+    const endpoint = `https://transparencyreport.google.com/safe-browsing/search?url=${uri}`
+    const url = this.opts.corsProxy
+      ? this.opts.corsProxy + encodeURIComponent(endpoint)
+      : endpoint;
+    const res = await fetch(url, {
       headers: { 'User-Agent': this.opts.userAgent }
     });
     const text = await res.text();
