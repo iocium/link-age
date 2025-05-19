@@ -14,15 +14,29 @@ import { RadarEstimator } from './estimators/radar';
 import { CensysEstimator } from './estimators/censys';
 import { SafeBrowsingEstimator } from './estimators/safebrowsing';
 
+/**
+ * Class representing a Link Age Estimator.
+ * This class manages multiple estimators to analyze the link age of a given input.
+ */
 export class LinkAgeEstimator {
   private opts: Required<LinkAgeOptions>;
   private estimators: (() => Promise<SignalResult>)[] = [];
 
+  /**
+   * Creates an instance of LinkAgeEstimator.
+   * @param options - Options for configuring the LinkAgeEstimator.
+   */
   constructor(options: LinkAgeOptions = {}) {
     this.opts = validateOptions(options);
 
     const { logHandler: log, providerSecrets } = this.opts;
 
+    /**
+     * Adds an estimator to the list if enabled.
+     * @param enabled - Indicates whether the estimator should be added.
+     * @param Estimator - The estimator class to instantiate.
+     * @param label - A label for logging purposes.
+     */
     const add = (enabled: boolean, Estimator: any, label: string) => {
       if (!enabled) return;
       this.estimators.push(async () => {
@@ -51,9 +65,20 @@ export class LinkAgeEstimator {
     add(this.opts.enableSafeBrowsing, SafeBrowsingEstimator, 'safebrowsing');
   }
 
+  /**
+   * Estimates link age based on the provided input.
+   * @param input - The input URL or domain to evaluate.
+   * @returns A promise that resolves to a LinkAgeResult containing the evaluation results.
+   */
   async estimate(input: string): Promise<LinkAgeResult> {
     this.opts.input = input;
 
+    /**
+     * Executes tasks with a limit on concurrency.
+     * @param tasks - An array of tasks to execute.
+     * @param limit - The maximum number of concurrent tasks.
+     * @returns A promise that resolves to an array of results.
+     */
     const runWithLimit = async <T>(
       tasks: (() => Promise<T>)[],
       limit: number

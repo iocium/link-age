@@ -26,6 +26,10 @@ jobs:
         run: |
           npm run build:browser
 
+      - name: Build typedoc
+        run: |
+          npm run docs
+
       - name: Copy library to docs root
         run: |
           cp -r dist/browser/index.js docs/link-age.js
