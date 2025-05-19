@@ -1,7 +1,7 @@
 export interface SignalResult {
   source: string;
   date?: Date;
-  trustLevel?: 'authoritative' | 'observed' | 'inferred';
+  trustLevel?: 'authoritative' | 'observed' | 'inferred' | 'negative';
   weight?: number;
   error?: string;
   metadata?: Record<string, any>;
