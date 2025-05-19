@@ -41,7 +41,7 @@ document.getElementById('age-form').addEventListener('submit', async (e) => {
     enableCensys: !!(providerSecrets.censysApiId && providerSecrets.censysApiSecret),
     providerSecrets,
     logHandler: (msg) => console.log(msg),
-    corsProxy: 'https://api.cors.lol/?url='
+    corsProxy: 'https://corsproxy.io/?url='
   });
 
   try {
