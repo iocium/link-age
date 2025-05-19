@@ -1,16 +1,7 @@
 import { SignalResult } from '../utils';
 
-interface CensysOptions {
-  providerSecrets?: {
-    censysApiId?: string;
-    censysApiSecret?: string;
-  };
-  corsProxy?: string;
-  userAgent: string;
-}
-
 export class CensysEstimator {
-  constructor(private opts: CensysOptions) {}
+  constructor(private opts: any) {}
 
   async estimate(input: string): Promise<SignalResult> {
     const domain = this.getDomain(input);
@@ -44,7 +35,7 @@ export class CensysEstimator {
     const res = await fetch(url, {
       headers: {
         Authorization: `Basic ${auth}`,
-        'User-Agent': this.opts.userAgent ?? 'iocium/link-age (browser)'
+        'User-Agent': this.opts.userAgent
       },
     });
     if (!res.ok) {

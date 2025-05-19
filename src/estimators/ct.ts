@@ -1,7 +1,7 @@
 import { SignalResult } from '../utils';
 
 export class CTEstimator {
-  constructor(private opts: { corsProxy?: string; userAgent: string }) {}
+  constructor(private opts: any) {}
 
   async estimate(input: string): Promise<SignalResult> {
     const domain = new URL(input).hostname.replace(/^www\./, '');
@@ -11,7 +11,7 @@ export class CTEstimator {
       : endpoint;
 
     const res = await fetch(url, {
-      headers: { 'User-Agent': this.opts.userAgent ?? 'iocium/link-age (browser)', }
+      headers: { 'User-Agent': this.opts.userAgent }
     });
 
     if (!res.ok) {
