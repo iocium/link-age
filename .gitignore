@@ -139,4 +139,4 @@ dist
 .svelte-kit
 
 # application
-report
+./report

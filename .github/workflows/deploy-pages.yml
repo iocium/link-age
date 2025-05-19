@@ -24,7 +24,6 @@ jobs:
 
       - name: Build @iocium/link-age
         run: |
-          npm run build
           npm run build:browser
 
       - name: Build typedoc
