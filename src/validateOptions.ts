@@ -11,7 +11,7 @@ export function validateOptions(opts: LinkAgeOptions): Required<LinkAgeOptions> 
     enableUrlscan: opts.enableUrlscan ?? false,
     enableShodan: opts.enableShodan ?? false,
     enableRevocation: opts.enableRevocation ?? false,
-    enableRadar: opts.enableRadar ?? true,
+    enableRadar: opts.enableRadar ?? false,
     enableCensys: opts.enableCensys ?? false,
     enableSafeBrowsing: opts.enableSafeBrowsing ?? true,
     timeoutMs: opts.timeoutMs ?? 8000,
