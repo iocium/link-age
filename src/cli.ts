@@ -19,7 +19,7 @@ program
   .option('--no-wayback', 'Disable Wayback Machine estimation')
   .option('--no-safebrowsing', 'Disable Google Safe Browsing estimation')
   .option('--dns', 'Enable passive DNS estimation', false)
-  .option('--radar', 'Enable Cloudflare Radar estimation', false)
+  .option('--cloudflare', 'Enable Cloudflare Radar estimation', false)
   .option('--urlscan', 'Enable URLScan historical lookup', false)
   .option('--shodan', 'Enable Shodan banner-based estimation', false)
   .option('--censys', 'Enable Censys host lookup', false)
@@ -65,7 +65,7 @@ const logHandler = (msg: string) => {
     enableUrlscan: opts.urlscan,
     enableShodan: opts.shodan,
     enableCensys: opts.censys,
-    enableRadar: opts.radar,
+    enableCloudflare: opts.cloudflare,
     enableRevocation: opts.revocation,
     enableSafeBrowsing: opts.safebrowsing,
     timeoutMs: opts.timeout,
@@ -86,6 +86,7 @@ const logHandler = (msg: string) => {
       certspotterApiKey: process.env.CERTSPOTTER_APIKEY,
       censysApiId: process.env.CENSYS_API_ID,
       censysApiSecret: process.env.CENSYS_API_SECRET,
+      cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID,
       cloudflareApiKey: process.env.CLOUDFLARE_API_KEY
     },
   });

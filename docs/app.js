@@ -8,7 +8,7 @@ function getKey(id) {
 }
 
 function restoreKeys() {
-  ['shodanKey', 'urlscanKey', 'censysId', 'censysSecret', 'cloudflareKey'].forEach(id => {
+  ['shodanKey', 'urlscanKey', 'censysId', 'censysSecret', 'cloudflareAccount', 'cloudflareKey'].forEach(id => {
     const el = document.getElementById(id);
     const val = localStorage.getItem(id);
     if (val) el.value = val;
@@ -24,6 +24,8 @@ document.getElementById('age-form').addEventListener('submit', async (e) => {
   reportEl.innerHTML = '<p>Running estimation...</p>';
 
   const providerSecrets = {
+    cloudflareAccountId: getKey('cloudflareAccount'),
+    cloudflareApiKey: getKey('cloudflareKey'),
     shodanApiKey: getKey('shodanKey'),
     urlscanApiKey: getKey('urlscanKey'),
     censysApiId: getKey('censysId'),
@@ -38,7 +40,7 @@ document.getElementById('age-form').addEventListener('submit', async (e) => {
     enableShodan: !!providerSecrets.shodanApiKey,
     enableUrlscan: !!providerSecrets.urlscanApiKey,
     enableCensys: !!(providerSecrets.censysApiId && providerSecrets.censysApiSecret),
-    enableRadar: !!(providerSecrets.cloudflareApiKey),
+    enableCloudflare: !!(providerSecrets.cloudflareAccountId && providerSecrets.cloudflareApiKey),
     providerSecrets,
     logHandler: (msg) => console.log(msg),
     corsProxy: 'https://cors.iocium.workers.dev/?url='

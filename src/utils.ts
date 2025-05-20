@@ -48,8 +48,8 @@ export interface LinkAgeOptions {
   /** Enable revocation status checks. */
   enableRevocation?: boolean;
 
-  /** Enable Cloudflare Radar checks. */
-  enableRadar?: boolean;
+  /** Enable Cloudflare checks. */
+  enableCloudflare?: boolean;
 
   /** Enable Censys checks. */
   enableCensys?: boolean;
