@@ -5,28 +5,42 @@ body {
   background: #f8f9fa;
   color: #222;
 }
+
 header {
   text-align: center;
   margin-bottom: 2rem;
 }
+
 h1 {
-  font-size: 2rem;
+  font-size: 2.5rem; /* Increased size for emphasis */
   margin-bottom: 0.5rem;
+  color: #0a3a74; /* Changed color for better contrast */
 }
+
 form {
   max-width: 720px;
   margin: 0 auto 2rem;
   background: white;
-  padding: 1rem 2rem;
+  padding: 2rem; /* Increased padding for a spacious feel */
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
 }
+
 input[type="text"] {
-  padding: 0.5rem;
-  margin: 0.3rem 0;
+  padding: 0.75rem; /* Increased padding for comfort */
+  margin: 0.5rem 0; /* Adjusted margin for consistent spacing */
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* Added rounded corners */
+  transition: border-color 0.3s; /* Smooth transition effect */
 }
+
+input[type="text"]:focus {
+  border-color: #0a3a74; /* Highlight input on focus */
+  outline: none; /* Remove default outline */
+}
+
 button {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
@@ -36,44 +50,55 @@ button {
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s; /* Smooth transition for hover effect */
 }
+
 button:hover {
-  background: #08407e;
+  background: #08407e; /* Darker shade on hover */
 }
+
 fieldset {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd; /* Lighter border for subtlety */
   border-radius: 6px;
   padding: 1rem;
   margin-top: 1rem;
+  background: #f9f9f9; /* Light background for fieldset */
 }
+
 legend {
   font-weight: bold;
   padding: 0 0.5rem;
 }
+
 label {
   display: block;
   margin-bottom: 0.6rem;
 }
+
 #report {
   max-width: 800px;
   margin: 2rem auto;
   background: white;
   padding: 1rem;
   border-radius: 6px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
 footer {
   margin-top: 3rem;
   text-align: center;
   font-size: 0.9rem;
 }
+
 footer p {
   margin: 0.2rem 0;
 }
+
 footer .note {
   font-style: italic;
   color: #666;
 }
+
 .error {
   color: red;
   font-weight: bold;
