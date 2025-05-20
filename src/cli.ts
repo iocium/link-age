@@ -17,9 +17,9 @@ program
   .option('--no-whois', 'Disable WHOIS/RDAP estimation')
   .option('--no-ct', 'Disable Certificate Transparency (CT) log estimation')
   .option('--no-wayback', 'Disable Wayback Machine estimation')
-  .option('--no-radar', 'Disable Cloudflare Radar estimation')
   .option('--no-safebrowsing', 'Disable Google Safe Browsing estimation')
   .option('--dns', 'Enable passive DNS estimation', false)
+  .option('--radar', 'Enable Cloudflare Radar estimation', false)
   .option('--urlscan', 'Enable URLScan historical lookup', false)
   .option('--shodan', 'Enable Shodan banner-based estimation', false)
   .option('--censys', 'Enable Censys host lookup', false)
@@ -86,6 +86,7 @@ const logHandler = (msg: string) => {
       certspotterApiKey: process.env.CERTSPOTTER_APIKEY,
       censysApiId: process.env.CENSYS_API_ID,
       censysApiSecret: process.env.CENSYS_API_SECRET,
+      cloudflareApiKey: process.env.CLOUDFLARE_API_KEY
     },
   });
 

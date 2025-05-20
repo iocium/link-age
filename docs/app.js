@@ -8,7 +8,7 @@ function getKey(id) {
 }
 
 function restoreKeys() {
-  ['shodanKey', 'urlscanKey', 'censysId', 'censysSecret'].forEach(id => {
+  ['shodanKey', 'urlscanKey', 'censysId', 'censysSecret', 'cloudflareKey'].forEach(id => {
     const el = document.getElementById(id);
     const val = localStorage.getItem(id);
     if (val) el.value = val;
@@ -33,12 +33,12 @@ document.getElementById('age-form').addEventListener('submit', async (e) => {
   const estimator = new LinkAgeEstimator({
     enableCt: document.getElementById('ct').checked,
     enableWayback: document.getElementById('wayback').checked,
-    enableRadar: document.getElementById('radar').checked,
     enableSafeBrowsing: document.getElementById('safebrowsing').checked,
     enableDns: document.getElementById('dns').checked,
     enableShodan: !!providerSecrets.shodanApiKey,
     enableUrlscan: !!providerSecrets.urlscanApiKey,
     enableCensys: !!(providerSecrets.censysApiId && providerSecrets.censysApiSecret),
+    enableRadar: !!(providerSecrets.cloudflareApiKey),
     providerSecrets,
     logHandler: (msg) => console.log(msg),
     corsProxy: 'https://cors.iocium.workers.dev/?url='
