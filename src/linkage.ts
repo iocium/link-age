@@ -60,7 +60,7 @@ export class LinkAgeEstimator {
     add(this.opts.enableUrlscan, UrlscanEstimator, 'urlscan');
     add(this.opts.enableShodan, ShodanEstimator, 'shodan');
     add(this.opts.enableRevocation, RevocationEstimator, 'revocation');
-    add(this.opts.enableCloudflare, CloudflareEstimator, 'radar');
+    add(this.opts.enableCloudflare, CloudflareEstimator, 'cloudflare');
     add(this.opts.enableCensys, CensysEstimator, 'censys');
     add(this.opts.enableSafeBrowsing, SafeBrowsingEstimator, 'safebrowsing');
   }
