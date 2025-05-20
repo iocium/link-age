@@ -25,7 +25,7 @@ export class CloudflareEstimator {
     if (!timestamps?.length) throw new Error('No historical Cloudflare data found');
     const earliest = new Date(Math.min(...timestamps.map((d: Date) => d.getTime())));
     return {
-      source: 'urlscan',
+      source: 'cloudflare',
       date: earliest,
       trustLevel: 'observed',
       weight: 0.7
