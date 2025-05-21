@@ -1,4 +1,5 @@
-import { SignalResult, CloudflareOptions } from '../utils';
+import { SignalResult } from '../utils';
+import { CloudflareOptions } from './providerOptions';
 
 export class CloudflareUrlscanEstimator {
   constructor(private opts: CloudflareOptions) {}

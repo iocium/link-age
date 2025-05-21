@@ -1,8 +1,5 @@
-import { SignalResult, CloudflareOptions } from '../utils';
-
-interface ProviderSecrets {
-  cloudflareApiKey?: string;
-}
+import { SignalResult } from '../utils';
+import { CloudflareOptions } from './providerOptions';
 
 export class CloudflareRadarEstimator {
   constructor(private opts: CloudflareOptions) {}
