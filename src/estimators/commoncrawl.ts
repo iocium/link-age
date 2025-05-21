@@ -11,7 +11,10 @@ export class CommonCrawlEstimator {
     private opts: {
       corsProxy?: string;
       userAgent: string;
-      cache?: { get: (key: string) => Promise<any>; set: (key: string, val: any, ttl: number) => Promise<void> };
+      cache?: {
+        get: (key: string) => Promise<any>;
+        set: (key: string, val: any, ttl: number) => Promise<void>;
+      };
     }
   ) {}
 
@@ -21,43 +24,19 @@ export class CommonCrawlEstimator {
     const headers = { 'User-Agent': this.opts.userAgent };
 
     // Check cache first
-    if (this.opts.cache) {
-      const cached = await this.opts.cache.get(cacheKey);
-      if (cached) {
-        return {
-          source: 'commoncrawl',
-          date: new Date(cached.timestamp),
-          trustLevel: 'observed',
-          weight: 0.6,
-          metadata: { source: 'cache' },
-        };
-      }
+    const cached = this.opts.cache ? await this.opts.cache.get(cacheKey) : null;
+    if (cached) {
+      return this.createResponse('cache', new Date(cached.timestamp), 0.6);
     }
 
     for (const index of INDEXES) {
-      const query = `https://index.commoncrawl.org/${index}?url=${encodeURIComponent(domain)}&output=json`;
-      const url = this.opts.corsProxy
-        ? this.opts.corsProxy + encodeURIComponent(query)
-        : query;
+      const url = this.constructUrl(domain, index);
 
       try {
         const res = await fetch(url, { headers });
         if (!res.ok) continue;
 
-        const lines = (await res.text()).split('\n').filter(Boolean);
-        const timestamps = lines
-          .map(line => {
-            try {
-              const json = JSON.parse(line);
-              return json.timestamp;
-            } catch {
-              return null;
-            }
-          })
-          .filter(ts => ts && /^\d{14}$/.test(ts))
-          .map(ts => new Date(`${ts!.slice(0, 4)}-${ts!.slice(4, 6)}-${ts!.slice(6, 8)}`))
-          .filter(date => !isNaN(date.getTime()));
-
+        const timestamps = await this.extractTimestamps(res);
         if (timestamps.length) {
           const earliest = new Date(Math.min(...timestamps.map(d => d.getTime())));
 
@@ -66,27 +45,43 @@ export class CommonCrawlEstimator {
             await this.opts.cache.set(cacheKey, { timestamp: earliest.toISOString() }, 86400);
           }
 
-          return {
-            source: 'commoncrawl',
-            date: earliest,
-            trustLevel: 'observed',
-            weight: 0.6,
-            metadata: {
-              indexUsed: index,
-              capturesFound: timestamps.length,
-            },
-          };
+          return this.createResponse(index, earliest, 0.6, timestamps.length);
         }
-      } catch (_) {
+      } catch {
         continue;
       }
     }
 
+    return this.createResponse('negative', null, -0.5, undefined, 'No valid results from Common Crawl indexes');
+  }
+
+  private constructUrl(domain: string, index: string): string {
+    const query = `https://index.commoncrawl.org/${index}?url=${encodeURIComponent(domain)}&output=json`;
+    return this.opts.corsProxy ? `${this.opts.corsProxy}${encodeURIComponent(query)}` : query;
+  }
+
+  private async extractTimestamps(res: Response): Promise<Date[]> {
+    const lines = (await res.text()).split('\n').filter(Boolean);
+    return lines.map(line => {
+      try {
+        const json = JSON.parse(line);
+        const ts = json.timestamp;
+        if (/^\d{14}$/.test(ts)) {
+          return new Date(`${ts.slice(0, 4)}-${ts.slice(4, 6)}-${ts.slice(6, 8)}`);
+        }
+      } catch {}
+      return null;
+    }).filter((date): date is Date => date instanceof Date && !isNaN(date.getTime()));
+  }
+
+  private createResponse(source: string, date: Date | null, weight: number, capturesFound?: number, error?: string): SignalResult {
     return {
       source: 'commoncrawl',
-      trustLevel: 'negative',
-      weight: -0.5,
-      error: 'No valid results from Common Crawl indexes',
+      date: date || undefined,
+      trustLevel: source === 'cache' ? 'observed' : source === 'negative' ? 'negative' : 'observed',
+      weight,
+      metadata: capturesFound !== undefined ? { indexUsed: source, capturesFound } : { source },
+      error: error || undefined,
     };
   }
 }
