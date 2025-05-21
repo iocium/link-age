@@ -57,6 +57,9 @@ export interface LinkAgeOptions {
   /** Enable Google Safe Browsing checks. */
   enableSafeBrowsing?: boolean;
 
+  /** Enable Common Crawl checks. */
+  enableCommonCrawl?: boolean;
+
   /** Timeout in milliseconds for requests. */
   timeoutMs?: number;
 

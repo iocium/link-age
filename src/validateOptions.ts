@@ -29,6 +29,7 @@ export function validateOptions(opts: LinkAgeOptions): Required<LinkAgeOptions> 
     enableCloudflareUrlscan: opts.enableCloudflareUrlscan ?? false,
     enableCensys: opts.enableCensys ?? false,
     enableSafeBrowsing: opts.enableSafeBrowsing ?? true,
+    enableCommonCrawl: opts.enableCommonCrawl ?? false,
     timeoutMs: opts.timeoutMs ?? 8000,
     concurrencyLimit: opts.concurrencyLimit ?? 3,
     stopOnConfidence: opts.stopOnConfidence ?? { minSignals: 2, withinDays: 5 },

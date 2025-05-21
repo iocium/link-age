@@ -24,6 +24,7 @@ program
   .option('--shodan', 'Enable Shodan banner-based estimation', false)
   .option('--censys', 'Enable Censys host lookup', false)
   .option('--revocation', 'Enable revocation signal estimation', false)
+  .option('--commoncrawl', 'Enable Common Crawl estimator', false)
   .option('--timeout <ms>', 'Timeout for estimators', parseInt, 8000)
   .option('--min-signals <n>', 'Minimum valid signals before early exit', parseInt, 2)
   .option('--within-days <n>', 'Closeness threshold for signal confidence', parseInt, 5)
@@ -68,6 +69,7 @@ const logHandler = (msg: string) => {
     enableCloudflareUrlscan: opts.cloudflare,
     enableRevocation: opts.revocation,
     enableSafeBrowsing: opts.safebrowsing,
+    enableCommonCrawl: opts.commoncrawl,
     timeoutMs: opts.timeout,
     concurrencyLimit: opts.concurrency,
     userAgent: opts.userAgent,
