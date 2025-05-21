@@ -1,3 +1,13 @@
+/**
+ * Options for configuring Censys integration.
+ *
+ * @interface CensysOptions
+ * @property {Object} providerSecrets - Secrets required for Censys API authentication.
+ * @property {string} providerSecrets.censysApiId - The API ID for accessing Censys services.
+ * @property {string} providerSecrets.censysApiSecret - The API secret for accessing Censys services.
+ * @property {string} [corsProxy] - Optional CORS proxy URL for making requests.
+ * @property {string} [userAgent] - Optional user agent string to be used in requests.
+ */
 export interface CensysOptions {
   providerSecrets: {
     censysApiId: string;
