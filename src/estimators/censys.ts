@@ -1,7 +1,8 @@
 import { SignalResult } from '../utils';
+import { CensysOptions } from './providerOptions';
 
 export class CensysEstimator {
-  constructor(private opts: any) {}
+  constructor(private opts: CensysOptions) {}
 
   async estimate(input: string): Promise<SignalResult> {
     const domain = this.getDomain(input);
@@ -32,11 +33,16 @@ export class CensysEstimator {
   }
 
   private async fetchData(url: string, auth: string): Promise<Response> {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${auth}`,
+    };
+    // Only add User-Agent header if it's defined
+    if (this.opts.userAgent) {
+      headers['User-Agent'] = this.opts.userAgent;
+    }
     const res = await fetch(url, {
-      headers: {
-        Authorization: `Basic ${auth}`,
-        'User-Agent': this.opts.userAgent
-      },
+      headers
     });
     if (!res.ok) {
       throw new Error(`Censys API error: ${res.status}`);

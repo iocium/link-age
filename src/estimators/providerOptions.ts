@@ -1,3 +1,12 @@
+export interface CensysOptions {
+  providerSecrets: {
+    censysApiId: string;
+    censysApiSecret: string;
+  };
+  corsProxy?: string;
+  userAgent?: string;
+}
+
 /**
  * Options for configuring Cloudflare integration.
  *
