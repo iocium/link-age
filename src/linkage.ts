@@ -10,7 +10,8 @@ import { DnsEstimator } from './estimators/dns';
 import { UrlscanEstimator } from './estimators/urlscan';
 import { ShodanEstimator } from './estimators/shodan';
 import { RevocationEstimator } from './estimators/revocation';
-import { CloudflareEstimator } from './estimators/cloudflare';
+import { CloudflareUrlscanEstimator } from './estimators/cloudflareUrlscan';
+import { CloudflareRadarEstimator } from './estimators/cloudflareRadar';
 import { CensysEstimator } from './estimators/censys';
 import { SafeBrowsingEstimator } from './estimators/safebrowsing';
 
@@ -60,7 +61,7 @@ export class LinkAgeEstimator {
     add(this.opts.enableUrlscan, UrlscanEstimator, 'urlscan');
     add(this.opts.enableShodan, ShodanEstimator, 'shodan');
     add(this.opts.enableRevocation, RevocationEstimator, 'revocation');
-    add(this.opts.enableCloudflare, CloudflareEstimator, 'cloudflare');
+    add(this.opts.enableCloudflareUrlscan, CloudflareUrlscanEstimator, 'cloudflare-urlscan');
     add(this.opts.enableCensys, CensysEstimator, 'censys');
     add(this.opts.enableSafeBrowsing, SafeBrowsingEstimator, 'safebrowsing');
   }

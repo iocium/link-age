@@ -49,7 +49,7 @@ export interface LinkAgeOptions {
   enableRevocation?: boolean;
 
   /** Enable Cloudflare checks. */
-  enableCloudflare?: boolean;
+  enableCloudflareUrlscan?: boolean;
 
   /** Enable Censys checks. */
   enableCensys?: boolean;
