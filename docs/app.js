@@ -41,6 +41,7 @@ document.getElementById('age-form').addEventListener('submit', async (e) => {
     enableUrlscan: !!providerSecrets.urlscanApiKey,
     enableCensys: !!(providerSecrets.censysApiId && providerSecrets.censysApiSecret),
     enableCloudflare: !!(providerSecrets.cloudflareAccountId && providerSecrets.cloudflareApiKey),
+    enableCommonCrawl: document.getElementById('commoncrawl').checked,
     providerSecrets,
     logHandler: (msg) => console.log(msg),
     corsProxy: 'https://cors.iocium.workers.dev/?url='
