@@ -1,35 +1,85 @@
-import { SignalResult } from '../utils';
+import { SignalResult, CloudflareOptions } from '../utils';
+
+interface ProviderSecrets {
+  cloudflareApiKey?: string;
+}
 
 export class CloudflareRadarEstimator {
-  constructor(private opts: any) {}
+  constructor(private opts: CloudflareOptions) {}
 
   async estimate(input: string): Promise<SignalResult> {
-    const domain = new URL(input).hostname.replace(/^www\./, '');
+    const domain = this.getDomain(input);
     const apiKey = this.opts.providerSecrets.cloudflareApiKey;
-    if (!apiKey) return { source: 'cloudflare-radar', error: 'Missing Cloudflare API key' };
-    const endpoint = `https://api.cloudflare.com/client/v4/graphql`
-    const url = this.opts.corsProxy
-      ? this.opts.corsProxy + encodeURIComponent(endpoint)
+
+    if (!apiKey) return this.createErrorResponse('Missing Cloudflare API key');
+
+    const url = this.buildUrl();
+    
+    try {
+      const response = await this.fetchData(url, domain);
+      const firstSeen = this.extractFirstSeen(response);
+
+      return this.createSuccessResponse(firstSeen);
+    } catch (error) {
+      return this.createErrorResponse(error instanceof Error ? error.message : 'An unknown error occurred');
+    }
+  }
+
+  private getDomain(input: string): string {
+    return new URL(input).hostname.replace(/^www\./, '');
+  }
+
+  private buildUrl(): string {
+    const endpoint = 'https://api.cloudflare.com/client/v4/graphql';
+    return this.opts.corsProxy 
+      ? `${this.opts.corsProxy}${encodeURIComponent(endpoint)}`
       : endpoint;
-    const res = await fetch(url, {
+  }
+
+  private async fetchData(url: string, domain: string): Promise<any> {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.opts.providerSecrets.cloudflareApiKey}`,
+    };
+    // Only add User-Agent header if it's defined
+    if (this.opts.userAgent) {
+      headers['User-Agent'] = this.opts.userAgent;
+    }
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': this.opts.userAgent,
-        Authorization: `Bearer ${this.opts.providerSecrets.cloudflareApiKey}`,
-      },
+      headers,
       body: JSON.stringify({
-        query: `{ domainRank(domain: "${domain}") { firstSeen } }`
-      })
+        query: `{ domainRank(domain: "${domain}") { firstSeen } }`,
+      }),
     });
-    const json = await res.json();
-    console.log(json)
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  private extractFirstSeen(json: any): Date {
     const firstSeen = json?.data?.domainRank?.firstSeen;
-    if (!firstSeen) throw new Error('Cloudflare Radar: no firstSeen date available');
+    if (!firstSeen) {
+      throw new Error('Cloudflare Radar: no firstSeen date available');
+    }
+    return new Date(firstSeen);
+  }
+
+  private createSuccessResponse(firstSeen: Date): SignalResult {
     return {
       source: 'cloudflare-radar',
-      date: new Date(firstSeen),
-      trustLevel: 'observed'
+      date: firstSeen,
+      trustLevel: 'observed',
+    };
+  }
+
+  private createErrorResponse(message: string): SignalResult {
+    return {
+      source: 'cloudflare-radar',
+      error: message,
     };
   }
 }

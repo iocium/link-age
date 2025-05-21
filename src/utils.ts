@@ -110,3 +110,12 @@ export interface LinkAgeResult {
   /** Human-readable description of the estimation result. */
   humanReadable: string;
 }
+
+export interface CloudflareOptions {
+  providerSecrets: {
+    cloudflareAccountId: string;
+    cloudflareApiKey: string;
+  };
+  corsProxy?: string;
+  userAgent?: string;
+}

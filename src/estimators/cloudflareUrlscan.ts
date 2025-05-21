@@ -1,13 +1,4 @@
-import { SignalResult } from '../utils';
-
-interface CloudflareOptions {
-  providerSecrets: {
-    cloudflareAccountId: string;
-    cloudflareApiKey: string;
-  };
-  corsProxy?: string;
-  userAgent?: string;
-}
+import { SignalResult, CloudflareOptions } from '../utils';
 
 export class CloudflareUrlscanEstimator {
   constructor(private opts: CloudflareOptions) {}
