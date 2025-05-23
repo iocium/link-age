@@ -1,4 +1,4 @@
-import type { LinkAgeOptions } from './utils';
+import type { LinkAgeOptions, LinkAgePlugin } from './utils';
 
 /**
  * Validates and normalizes the provided options for the link age functionality.
@@ -37,6 +37,7 @@ export function validateOptions(opts: LinkAgeOptions): Required<LinkAgeOptions> 
     providerSecrets: opts.providerSecrets || {},
     logHandler: opts.logHandler || (() => {}),
     input: opts.input || '',
-    corsProxy: opts.corsProxy || ''
+    corsProxy: opts.corsProxy || '',
+    plugins: []
   };
 }

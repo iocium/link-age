@@ -67,6 +67,12 @@ export class LinkAgeEstimator {
     add(this.opts.enableSafeBrowsing, SafeBrowsingEstimator, 'safebrowsing');
     add(this.opts.enableCommonCrawl, CommonCrawlEstimator, 'commoncrawl');
 
+    // Add any user-supplied, external/internal plugins
+    if (this.opts.plugins?.length) {
+      for (const plugin of this.opts.plugins) {
+        if (plugin.setup) plugin.setup(this.opts); add(true, plugin.estimate.bind(plugin), plugin.source);
+      }
+    }
   }
 
   /**

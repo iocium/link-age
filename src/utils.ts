@@ -89,6 +89,9 @@ export interface LinkAgeOptions {
 
   /** CORS proxy to use for requests. */
   corsProxy?: string;
+
+  /** A list of user supplied, or external / internal plugins */
+  plugins?: LinkAgePlugin[];
 }
 
 /**
@@ -112,4 +115,33 @@ export interface LinkAgeResult {
 
   /** Human-readable description of the estimation result. */
   humanReadable: string;
+}
+
+/**
+ * Represents a plugin for estimating link age.
+ *
+ * @interface LinkAgePlugin
+ */
+export interface LinkAgePlugin {
+  /**
+   * The source of the link age estimation.
+   *
+   * @type {string}
+   */
+  source: string;
+
+  /**
+   * Estimates the link age based on the provided input.
+   *
+   * @param {string} input - The input URL or domain to estimate the link age for.
+   * @returns {Promise<SignalResult>} A promise that resolves to the signal result of the estimation.
+   */
+  estimate(input: string): Promise<SignalResult>;
+
+  /**
+   * Optional setup method to configure the plugin with specific options.
+   *
+   * @param {LinkAgeOptions} options - The options to configure the plugin.
+   */
+  setup?(options: LinkAgeOptions): void;
 }
