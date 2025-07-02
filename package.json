@@ -1,6 +1,6 @@
 {
   "name": "@iocium/link-age",
-  "version": "1.1.0",
+  "version": "0.0.1",
   "description": "A powerful enrichment tool for estimating the creation time or first-seen date of domains and URLs, aiding phishing detection and threat analysis.",
   "type": "module",
   "main": "dist/index.js",
