@@ -9,9 +9,10 @@
  * @property {string} [userAgent] - Optional user agent string to be used in requests.
  */
 export interface CensysOptions {
-  providerSecrets: {
-    censysApiId: string;
-    censysApiSecret: string;
+  /** Censys API credentials; both id and secret are optional here, runtime will validate presence */
+  providerSecrets?: {
+    censysApiId?: string;
+    censysApiSecret?: string;
   };
   corsProxy?: string;
   userAgent?: string;
