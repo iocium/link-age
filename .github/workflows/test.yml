@@ -23,7 +23,9 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          npm run build:browser
 
       - name: Run tests
         run: npm run test:coverage
