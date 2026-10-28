@@ -41,4 +41,26 @@ describe('CTEstimator', () => {
     await est.estimate('https://example.com');
     expect(url).toContain('https://proxy/?url=');
   });
+
+  it('sends Cert Spotter API key when provided', async () => {
+    const est = new CTEstimator({ providerSecrets: { certspotterApiKey: 'secret' }, userAgent: 'ua' });
+    let headers: any;
+    global.fetch = async (_url: any, init: any) => {
+      headers = init.headers;
+      return { ok: true, json: async () => [{ not_before: '2023-01-05T00:00:00Z' }] } as any;
+    };
+    await est.estimate('https://example.com');
+    expect(headers.Authorization).toBe('Bearer secret');
+  });
+
+  it('works without a Cert Spotter API key', async () => {
+    const est = new CTEstimator({ userAgent: 'ua' });
+    let headers: any;
+    global.fetch = async (_url: any, init: any) => {
+      headers = init.headers;
+      return { ok: true, json: async () => [{ not_before: '2023-01-05T00:00:00Z' }] } as any;
+    };
+    await est.estimate('https://example.com');
+    expect(headers.Authorization).toBeUndefined();
+  });
 });
