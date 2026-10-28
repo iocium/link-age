@@ -16,6 +16,7 @@ export interface CensysOptions {
   };
   corsProxy?: string;
   userAgent?: string;
+  timeoutMs: number;
 }
 
 /**
@@ -35,4 +36,5 @@ export interface CloudflareOptions {
   };
   corsProxy?: string;
   userAgent?: string;
+  timeoutMs: number;
 }

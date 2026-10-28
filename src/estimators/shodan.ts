@@ -13,7 +13,8 @@ export class ShodanEstimator {
       ? this.opts.corsProxy + encodeURIComponent(endpoint)
       : endpoint;
     const res = await fetch(url, {
-      headers: { 'User-Agent': this.opts.userAgent }
+      headers: { 'User-Agent': this.opts.userAgent },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
 
     if (!res.ok) throw new Error(`Shodan API request failed: ${res.status}`);

@@ -45,6 +45,7 @@ export class CloudflareRadarEstimator {
     const response = await fetch(url, {
       method: 'POST',
       headers,
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
       body: JSON.stringify({
         query: `{ domainRank(domain: "${domain}") { firstSeen } }`,
       }),

@@ -33,6 +33,7 @@ export class CTEstimator {
 
     const res = await fetch(url, {
       headers: { 'User-Agent': this.opts.userAgent },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
 
     if (!res.ok) {
@@ -56,7 +57,7 @@ export class CTEstimator {
     let pages = 0;
 
     while (url && pages < CERTSPOTTER_MAX_PAGES) {
-      const res = await fetch(url, { headers });
+      const res = await fetch(url, { headers, signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000) });
 
       if (!res.ok) {
         throw new Error(`CT Cert Spotter query failed with status ${res.status}`);

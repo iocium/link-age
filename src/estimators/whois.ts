@@ -5,6 +5,7 @@ export class WhoisEstimator {
     private opts: {
       corsProxy?: string;
       userAgent?: string;
+      timeoutMs: number;
     }
   ) {}
 
@@ -19,6 +20,7 @@ export class WhoisEstimator {
       headers: {
         'User-Agent': this.opts.userAgent ?? 'iocium/link-age (browser)',
       },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
 
     if (res.status === 404) {

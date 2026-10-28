@@ -15,7 +15,8 @@ export class UrlscanEstimator {
       headers: {
         'API-Key': key,
         'User-Agent': this.opts.userAgent
-      }
+      },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
     const json = await res.json();
     const timestamps = json.results?.map((r: any) => new Date(r.task.time)).filter((d: Date) => !isNaN(d.getTime()));

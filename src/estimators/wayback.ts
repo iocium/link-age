@@ -10,7 +10,8 @@ export class WaybackEstimator {
       ? this.opts.corsProxy + encodeURIComponent(endpoint)
       : endpoint;
     const res = await fetch(url, {
-      headers: { 'User-Agent': this.opts.userAgent }
+      headers: { 'User-Agent': this.opts.userAgent },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
     const data = await res.json();
     if (!Array.isArray(data) || data.length < 2) throw new Error('No Wayback Machine data available');

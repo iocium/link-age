@@ -42,7 +42,8 @@ export class CensysEstimator {
       headers['User-Agent'] = this.opts.userAgent;
     }
     const res = await fetch(url, {
-      headers
+      headers,
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
     if (!res.ok) {
       throw new Error(`Censys API error: ${res.status}`);

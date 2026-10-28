@@ -20,7 +20,7 @@ export class RevocationEstimator {
             Authorization: `Bearer ${apiKey}`,
             Accept: 'application/json',
           },
-          signal: AbortSignal.timeout(this.opts.timeoutMs),
+          signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
         }
       );
       if (!res.ok) return { source: 'revocation', error: `Cert Spotter API error: ${res.status}` };

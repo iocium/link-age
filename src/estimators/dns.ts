@@ -48,7 +48,8 @@ export class DnsEstimator {
       headers: {
         'APIKEY': key,
         'User-Agent': this.opts.userAgent
-      }
+      },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
     const json = await res.json();
     const records = json.records || [];
@@ -61,7 +62,8 @@ export class DnsEstimator {
       headers: {
         Authorization: 'Basic ' + Buffer.from(`${passiveTotalUsername}:${passiveTotalApiKey}`).toString('base64'),
         'User-Agent': this.opts.userAgent
-      }
+      },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
     const json = await res.json();
     const records = json.results || [];

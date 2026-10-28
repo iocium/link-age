@@ -23,4 +23,10 @@ describe('validateOptions', () => {
     const opts = validateOptions({});
     expect(() => opts.logHandler('test')).not.toThrow();
   });
+
+  it('falls back to default timeoutMs when invalid', () => {
+    expect(validateOptions({ timeoutMs: 0 }).timeoutMs).toBe(8000);
+    expect(validateOptions({ timeoutMs: -1 }).timeoutMs).toBe(8000);
+    expect(validateOptions({ timeoutMs: 3000 }).timeoutMs).toBe(3000);
+  });
 });

@@ -30,7 +30,7 @@ export function validateOptions(opts: LinkAgeOptions): Required<LinkAgeOptions> 
     enableCensys: opts.enableCensys ?? false,
     enableSafeBrowsing: opts.enableSafeBrowsing ?? false,
     enableCommonCrawl: opts.enableCommonCrawl ?? false,
-    timeoutMs: opts.timeoutMs ?? 8000,
+    timeoutMs: (typeof opts.timeoutMs === 'number' && opts.timeoutMs > 0) ? opts.timeoutMs : 8000,
     concurrencyLimit: opts.concurrencyLimit ?? 3,
     stopOnConfidence: opts.stopOnConfidence ?? { minSignals: 2, withinDays: 5 },
     userAgent: opts.userAgent || defaultUserAgent,

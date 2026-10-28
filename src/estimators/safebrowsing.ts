@@ -10,7 +10,8 @@ export class SafeBrowsingEstimator {
       ? this.opts.corsProxy + encodeURIComponent(endpoint)
       : endpoint;
     const res = await fetch(url, {
-      headers: { 'User-Agent': this.opts.userAgent }
+      headers: { 'User-Agent': this.opts.userAgent },
+      signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
     });
     const text = await res.text();
     const flagged = /dangerous|deceptive|phishing|malware|harmful/i.test(text);

@@ -11,6 +11,7 @@ export class CommonCrawlEstimator {
     private opts: {
       corsProxy?: string;
       userAgent: string;
+      timeoutMs: number;
       cache?: {
         get: (key: string) => Promise<any>;
         set: (key: string, val: any, ttl: number) => Promise<void>;
@@ -33,7 +34,7 @@ export class CommonCrawlEstimator {
       const url = this.constructUrl(domain, index);
 
       try {
-        const res = await fetch(url, { headers });
+        const res = await fetch(url, { headers, signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000) });
         if (!res.ok) continue;
 
         const timestamps = await this.extractTimestamps(res);

@@ -25,6 +25,7 @@ export class CloudflareUrlscanEstimator {
       }
       const res = await fetch(url, {
         headers,
+        signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000),
       });
 
       const json = await res.json();
