@@ -74,8 +74,9 @@ Earliest observed: 2023-02-01T12:00:00Z
 ### Enabled by Default:
 
 * WHOIS / RDAP (`--no-whois`)
-* Certificate Transparency via Cert Spotter (`--no-ct`)
-  * Works without an API key (100 lookups/hour)
+* Certificate Transparency (`--no-ct`)
+  * Primary source: crt.sh
+  * Fallback source: Cert Spotter (works without an API key; 100 lookups/hour)
   * Provide `CERTSPOTTER_APIKEY` or `providerSecrets.certspotterApiKey` for higher rate limits
 * Wayback Machine (`--no-wayback`)
 
