@@ -71,7 +71,18 @@ export class LinkAgeEstimator {
     // Add any user-supplied, external/internal plugins
     if (this.opts.plugins?.length) {
       for (const plugin of this.opts.plugins) {
-        if (plugin.setup) plugin.setup(this.opts); add(true, plugin.estimate.bind(plugin), plugin.source);
+        if (plugin.setup) plugin.setup(this.opts);
+        this.estimators.push(async () => {
+          log(`start:${plugin.source}`);
+          try {
+            const result = await plugin.estimate(this.opts.input);
+            log(`success:${plugin.source}`);
+            return { ...result, source: plugin.source };
+          } catch (err: any) {
+            log(`error:${plugin.source}`);
+            return { source: plugin.source, error: err.message };
+          }
+        });
       }
     }
   }

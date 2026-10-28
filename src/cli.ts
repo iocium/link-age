@@ -18,7 +18,7 @@ program
   .option('--no-whois', 'Disable WHOIS/RDAP estimation')
   .option('--no-ct', 'Disable Certificate Transparency (CT) log estimation')
   .option('--no-wayback', 'Disable Wayback Machine estimation')
-  .option('--no-safebrowsing', 'Disable Google Safe Browsing estimation')
+  .option('--safebrowsing', 'Enable Google Safe Browsing estimation')
   .option('--dns', 'Enable passive DNS estimation', false)
   .option('--cloudflare', 'Enable Cloudflare URL Scanner / Radar estimation', false)
   .option('--urlscan', 'Enable URLScan historical lookup', false)

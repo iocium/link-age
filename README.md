@@ -76,17 +76,18 @@ Earliest observed: 2023-02-01T12:00:00Z
 * WHOIS / RDAP (`--no-whois`)
 * Certificate Transparency (`--no-ct`)
 * Wayback Machine (`--no-wayback`)
-* Google Safe Browsing (`--no-safebrowsing`)
 
 ### Opt-In:
 
-| Flag           | Description                       |
-| -------------- | --------------------------------- |
-| `--dns`        | Passive DNS (multiple providers)  |
-| `--urlscan`    | Historical scans via urlscan.io   |
-| `--shodan`     | First-seen IP/banners from Shodan |
-| `--censys`     | Passive data from Censys Search   |
-| `--revocation` | Revoked certs via Cert Spotter    |
+| Flag              | Description                       |
+| ----------------- | --------------------------------- |
+| `--safebrowsing`  | Google Safe Browsing status       |
+| `--dns`           | Passive DNS (multiple providers)  |
+| `--urlscan`       | Historical scans via urlscan.io   |
+| `--shodan`        | First-seen IP/banners from Shodan |
+| `--censys`        | Passive data from Censys Search   |
+| `--revocation`    | Revoked certs via Cert Spotter    |
+| `--commoncrawl`   | Common Crawl index lookup         |
 
 ---
 

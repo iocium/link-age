@@ -41,6 +41,24 @@ describe('scoreSignals', () => {
     ], defaults);
     expect(result.score).toBeCloseTo(1.0 * 0.75 * 1.5, 5);
   });
+
+  it('anchors earliest to authoritative signals and ignores far earlier observed signals', () => {
+    const result = scoreSignals([
+      { source: 'whois', date: new Date('2020-01-10'), trustLevel: 'authoritative', weight: 1.0 },
+      { source: 'wayback', date: new Date('2018-01-10'), trustLevel: 'observed', weight: 0.6 },
+      { source: 'ct', date: new Date('2020-01-12'), trustLevel: 'observed', weight: 0.75 },
+    ], defaults);
+    expect(result.earliest?.toISOString()).toBe('2020-01-10T00:00:00.000Z');
+    expect(result.score).toBeCloseTo(1.0 * 1.5 * 1.5 + 0.75 * 1.0 * 1.5, 5);
+  });
+
+  it('keeps observed signals within the authoritative grace period', () => {
+    const result = scoreSignals([
+      { source: 'whois', date: new Date('2020-01-10'), trustLevel: 'authoritative', weight: 1.0 },
+      { source: 'wayback', date: new Date('2020-01-08'), trustLevel: 'observed', weight: 0.6 },
+    ], defaults);
+    expect(result.earliest?.toISOString()).toBe('2020-01-08T00:00:00.000Z');
+  });
 });
 
 describe('getConfidence', () => {

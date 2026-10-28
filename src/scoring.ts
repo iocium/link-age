@@ -1,7 +1,28 @@
 import type { SignalResult, LinkAgeOptions } from './utils';
 
-export function scoreSignals(signals: SignalResult[], opts: Required<LinkAgeOptions>) {
+/**
+ * Returns valid signals, anchored to authoritative sources when present.
+ * If any authoritative signal has a date, observed/inferred signals that predate
+ * the earliest authoritative date by more than `withinDays` are dropped. This
+ * prevents Wayback / CT outliers from pulling the earliest date before the
+ * domain's actual registration.
+ */
+function getValidSignals(signals: SignalResult[], opts: Required<LinkAgeOptions>): SignalResult[] {
   const valid = signals.filter(s => s.date && !s.error);
+  const authoritative = valid.filter(s => s.trustLevel === 'authoritative');
+
+  if (authoritative.length === 0) {
+    return valid;
+  }
+
+  const anchorTs = Math.min(...authoritative.map(s => s.date!.getTime()));
+  const marginMs = opts.stopOnConfidence.withinDays * 86400000;
+
+  return valid.filter(s => s.date!.getTime() >= anchorTs - marginMs);
+}
+
+export function scoreSignals(signals: SignalResult[], opts: Required<LinkAgeOptions>) {
+  const valid = getValidSignals(signals, opts);
   if (!valid.length) return { score: 0, earliest: undefined };
 
   const timestamps = valid.map(s => s.date!.getTime());
@@ -30,7 +51,7 @@ function getTrustMultiplier(level: string | undefined): number {
 }
 
 export function getConfidence(signals: SignalResult[], opts: Required<LinkAgeOptions>): 'none' | 'low' | 'medium' | 'high' {
-  const valid = signals.filter(s => s.date && !s.error);
+  const valid = getValidSignals(signals, opts);
   if (valid.length === 0) return 'none';
 
   const timestamps = valid.map(s => s.date!.getTime());

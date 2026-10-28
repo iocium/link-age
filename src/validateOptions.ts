@@ -28,7 +28,7 @@ export function validateOptions(opts: LinkAgeOptions): Required<LinkAgeOptions> 
     enableRevocation: opts.enableRevocation ?? false,
     enableCloudflareUrlscan: opts.enableCloudflareUrlscan ?? false,
     enableCensys: opts.enableCensys ?? false,
-    enableSafeBrowsing: opts.enableSafeBrowsing ?? true,
+    enableSafeBrowsing: opts.enableSafeBrowsing ?? false,
     enableCommonCrawl: opts.enableCommonCrawl ?? false,
     timeoutMs: opts.timeoutMs ?? 8000,
     concurrencyLimit: opts.concurrencyLimit ?? 3,
@@ -38,6 +38,6 @@ export function validateOptions(opts: LinkAgeOptions): Required<LinkAgeOptions> 
     logHandler: opts.logHandler || (() => {}),
     input: opts.input || '',
     corsProxy: opts.corsProxy || '',
-    plugins: []
+    plugins: opts.plugins || []
   };
 }
