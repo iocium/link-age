@@ -8,11 +8,11 @@
     "link-age": "dist/cli.js"
   },
   "scripts": {
-    "build": "tsup",
-    "build:browser": "tsup --config tsup.browser.config.ts",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "docs": "typedoc"
+    "build": "bunx --bun tsup",
+    "build:browser": "bunx --bun tsup --config tsup.browser.config.ts",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "docs": "bunx --bun typedoc"
   },
   "keywords": [
     "domain",
@@ -34,19 +34,12 @@
   "dependencies": {
     "chalk": "^5.4.1",
     "commander": "^14.0.0",
-    "cross-fetch": "^4.1.0",
-    "date-fns": "^4.1.0",
-    "ora": "^8.2.0",
-    "ts-jest": "^29.4.0",
-    "typedoc": "^0.28.7"
+    "ora": "^8.2.0"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
     "@types/node": "^24.0.10",
-    "jest": "^30.0.3",
-    "msw": "^2.10.2",
-    "ts-node": "^10.9.2",
     "tsup": "^8.5.0",
+    "typedoc": "^0.28.7",
     "typescript": "^5.8.3"
   }
 }

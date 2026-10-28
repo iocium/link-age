@@ -25,8 +25,8 @@ Phishing detection. Threat intelligence. Fraud prevention. Estimate when a domai
 ## 🚀 Installation
 
 ```bash
-npm install -g @iocium/link-age
-````
+bun add -g @iocium/link-age
+```
 
 ---
 
@@ -34,6 +34,17 @@ npm install -g @iocium/link-age
 
 ```bash
 link-age https://example.com
+```
+
+---
+
+## 🛠️ Development
+
+```bash
+bun install
+bun run build
+bun test
+bun run docs
 ```
 
 You’ll see output like:
