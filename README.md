@@ -4,7 +4,6 @@ Phishing detection. Threat intelligence. Fraud prevention. Estimate when a domai
 
 [![npm](https://img.shields.io/npm/v/@iocium/link-age)](https://www.npmjs.com/package/@iocium/link-age)
 [![build](https://github.com/iocium/link-age/actions/workflows/test.yml/badge.svg)](https://github.com/iocium/link-age/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/iocium/link-age/branch/main/graph/badge.svg)](https://codecov.io/gh/iocium/link-age)
 [![npm downloads](https://img.shields.io/npm/dm/@iocium/link-age)](https://www.npmjs.com/package/@iocium/link-age)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@iocium/link-age)](https://bundlephobia.com/package/@iocium/link-age)
 [![types](https://img.shields.io/npm/types/@iocium/link-age)](https://www.npmjs.com/package/@iocium/link-age)
