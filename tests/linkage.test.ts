@@ -8,4 +8,9 @@ describe('LinkAgeEstimator', () => {
     expect(result).toHaveProperty('confidence');
     expect(Array.isArray(result.signals)).toBe(true);
   });
+
+  it('should reject an invalid URL', async () => {
+    const estimator = new LinkAgeEstimator({ enableCt: false, enableWhois: false, enableWayback: false });
+    await expect(estimator.estimate('https://urlscan.io]')).rejects.toThrow('Invalid URL');
+  });
 });

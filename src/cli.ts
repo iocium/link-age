@@ -5,6 +5,7 @@ import ora from 'ora';
 import chalk from 'chalk';
 import { generateHtmlReport } from './report/html';
 import { generateMarkdownReport } from './report/markdown';
+import { validateUrl } from './utils';
 
 const program = new Command();
 program
@@ -57,6 +58,13 @@ const logHandler = (msg: string) => {
 };
 
 (async () => {
+  try {
+    validateUrl(input);
+  } catch (err: any) {
+    console.error(chalk.red(err.message));
+    process.exit(1);
+  }
+
   const cliStart = Date.now();
   const estimator = new LinkAgeEstimator({
     enableWhois: opts.whois,
@@ -117,4 +125,7 @@ const logHandler = (msg: string) => {
 
   if (opts.out) writeFileSync(opts.out, output);
   else console.log(output);
-})();
+})().catch((err: any) => {
+  console.error(chalk.red(err.message));
+  process.exit(1);
+});

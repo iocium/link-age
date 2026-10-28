@@ -1,4 +1,16 @@
 /**
+ * Validates that a string is a parseable absolute URL.
+ * Throws a clear error if not.
+ */
+export function validateUrl(input: string): URL {
+  try {
+    return new URL(input);
+  } catch {
+    throw new Error(`Invalid URL: ${input}`);
+  }
+}
+
+/**
  * Represents the result from a signal source.
  */
 export interface SignalResult {

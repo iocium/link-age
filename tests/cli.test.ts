@@ -3,6 +3,14 @@ import { existsSync, readFileSync, unlinkSync } from 'fs';
 
 const runtime = process.execPath;
 const run = (args: string) => execSync(`${runtime} dist/cli.js ${args}`, { encoding: 'utf8' });
+const runExpectError = (args: string) => {
+  try {
+    execSync(`${runtime} dist/cli.js ${args}`, { encoding: 'utf8' });
+    return null;
+  } catch (err: any) {
+    return err;
+  }
+};
 
 describe('CLI output', () => {
   it('should display summary output for example.com', () => {
@@ -38,5 +46,11 @@ describe('CLI output', () => {
     const content = readFileSync(out, 'utf8');
     expect(JSON.parse(content).input).toBe('https://example.com');
     unlinkSync(out);
+  });
+
+  it('exits with an error for an invalid URL', () => {
+    const err = runExpectError("'https://urlscan.io]'");
+    expect(err).not.toBeNull();
+    expect((err as any).stderr ?? (err as any).message).toContain('Invalid URL');
   });
 });

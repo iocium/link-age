@@ -1,5 +1,6 @@
 import { validateOptions } from './validateOptions';
 import type { LinkAgeOptions, LinkAgeResult, SignalResult } from './utils';
+import { validateUrl } from './utils';
 import { getConfidence, scoreSignals } from './scoring';
 import { formatSummary } from './summary';
 
@@ -81,6 +82,7 @@ export class LinkAgeEstimator {
    * @returns A promise that resolves to a LinkAgeResult containing the evaluation results.
    */
   async estimate(input: string): Promise<LinkAgeResult> {
+    validateUrl(input);
     this.opts.input = input;
 
     /**
