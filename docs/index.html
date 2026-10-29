@@ -15,23 +15,28 @@
     <form id="age-form">
       <label for="input">Domain or URL:</label>
       <input type="text" id="input" placeholder="example.com" required />
+
       <fieldset class="toggles">
         <legend>Signals</legend>
+        <label><input type="checkbox" id="whois" checked /> WHOIS / RDAP</label>
         <label><input type="checkbox" id="ct" checked /> Certificate Transparency</label>
         <label><input type="checkbox" id="wayback" checked /> Wayback Machine</label>
-        <label><input type="checkbox" id="safebrowsing" checked /> Google Safe Browsing</label>
-        <label><input type="checkbox" id="commoncrawl" checked /> CommonCrawl</label>
+        <label><input type="checkbox" id="commoncrawl" /> CommonCrawl</label>
+        <label><input type="checkbox" id="safebrowsing" /> Google Safe Browsing</label>
         <label><input type="checkbox" id="dns" /> Passive DNS (public only)</label>
       </fieldset>
+
       <fieldset class="keys">
         <legend>Optional: Enhance with your own API keys</legend>
+        <label>Cert Spotter API Key <input type="text" id="certspotterKey" placeholder="ctsp_..." /></label>
         <label>Cloudflare Account Id <input type="text" id="cloudflareAccount" placeholder="..." /></label>
         <label>Cloudflare API Key <input type="text" id="cloudflareKey" placeholder="..." /></label>
-        <label>Shodan API Key <input type="text" id="shodanKey" placeholder="shodan_..." /></label>
+        <label>Shodan API Key <input type="text" id="shodanKey" placeholder="..." /></label>
         <label>urlscan.io API Key <input type="text" id="urlscanKey" placeholder="..." /></label>
         <label>Censys API ID <input type="text" id="censysId" placeholder="..." /></label>
         <label>Censys API Secret <input type="text" id="censysSecret" placeholder="..." /></label>
       </fieldset>
+
       <button type="submit">Estimate</button>
     </form>
     <section id="report"></section>

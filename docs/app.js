@@ -1,4 +1,4 @@
-import { LinkAgeEstimator } from './link-age.js';
+import { LinkAgeEstimator, generateHtmlReport } from './link-age.js';
 
 function getKey(id) {
   const el = document.getElementById(id);
@@ -8,7 +8,15 @@ function getKey(id) {
 }
 
 function restoreKeys() {
-  ['shodanKey', 'urlscanKey', 'censysId', 'censysSecret', 'cloudflareAccount', 'cloudflareKey'].forEach(id => {
+  [
+    'certspotterKey',
+    'shodanKey',
+    'urlscanKey',
+    'censysId',
+    'censysSecret',
+    'cloudflareAccount',
+    'cloudflareKey',
+  ].forEach(id => {
     const el = document.getElementById(id);
     const val = localStorage.getItem(id);
     if (val) el.value = val;
@@ -24,15 +32,17 @@ document.getElementById('age-form').addEventListener('submit', async (e) => {
   reportEl.innerHTML = '<p>Running estimation...</p>';
 
   const providerSecrets = {
+    certspotterApiKey: getKey('certspotterKey'),
     cloudflareAccountId: getKey('cloudflareAccount'),
     cloudflareApiKey: getKey('cloudflareKey'),
     shodanApiKey: getKey('shodanKey'),
     urlscanApiKey: getKey('urlscanKey'),
     censysApiId: getKey('censysId'),
-    censysApiSecret: getKey('censysSecret')
+    censysApiSecret: getKey('censysSecret'),
   };
 
   const estimator = new LinkAgeEstimator({
+    enableWhois: document.getElementById('whois').checked,
     enableCt: document.getElementById('ct').checked,
     enableWayback: document.getElementById('wayback').checked,
     enableSafeBrowsing: document.getElementById('safebrowsing').checked,
@@ -40,16 +50,17 @@ document.getElementById('age-form').addEventListener('submit', async (e) => {
     enableShodan: !!providerSecrets.shodanApiKey,
     enableUrlscan: !!providerSecrets.urlscanApiKey,
     enableCensys: !!(providerSecrets.censysApiId && providerSecrets.censysApiSecret),
-    enableCloudflare: !!(providerSecrets.cloudflareAccountId && providerSecrets.cloudflareApiKey),
+    enableCloudflareUrlscan: !!(providerSecrets.cloudflareAccountId && providerSecrets.cloudflareApiKey),
     enableCommonCrawl: document.getElementById('commoncrawl').checked,
     providerSecrets,
     logHandler: (msg) => console.log(msg),
-    corsProxy: 'https://cors.iocium.workers.dev/?url='
+    corsProxy: 'https://cors.iocium.workers.dev/?url=',
+    timeoutMs: 15000,
   });
 
   try {
     const result = await estimator.estimate(input);
-    reportEl.innerHTML = result.htmlReport || '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+    reportEl.innerHTML = generateHtmlReport(result, input);
   } catch (err) {
     reportEl.innerHTML = '<p class="error">Error: ' + err.message + '</p>';
   }

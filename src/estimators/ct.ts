@@ -57,7 +57,7 @@ export class CTEstimator {
     let pages = 0;
 
     while (url && pages < CERTSPOTTER_MAX_PAGES) {
-      const res = await fetch(url, { headers, signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000) });
+      const res: Response = await fetch(url, { headers, signal: AbortSignal.timeout(this.opts.timeoutMs ?? 8000) });
 
       if (!res.ok) {
         throw new Error(`CT Cert Spotter query failed with status ${res.status}`);
@@ -71,10 +71,10 @@ export class CTEstimator {
       collected.push(...page.filter(e => e && e.not_before));
       pages++;
 
-      const linkHeader = res.headers?.get('link') || '';
-      const nextMatch = linkHeader.match(/<([^>]+)>\s*;\s*rel="next"/);
+      const linkHeader: string = res.headers?.get('link') || '';
+      const nextMatch: RegExpMatchArray | null = linkHeader.match(/<([^>]+)>\s*;\s*rel="next"/);
       // Cert Spotter's Link header currently omits /v1 from the next URL, so fix it.
-      const nextUrl = nextMatch ? nextMatch[1].replace('https://api.certspotter.com/issuances?', 'https://api.certspotter.com/v1/issuances?') : undefined;
+      const nextUrl: string | undefined = nextMatch ? nextMatch[1].replace('https://api.certspotter.com/issuances?', 'https://api.certspotter.com/v1/issuances?') : undefined;
       url = nextUrl ? this.proxyUrl(nextUrl) : undefined;
     }
 
