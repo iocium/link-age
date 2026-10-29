@@ -32,13 +32,13 @@
   "author": "iocium",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^5.4.1",
-    "commander": "^14.0.0",
-    "ora": "^8.2.0"
+    "chalk": "^6.0.1",
+    "commander": "^15.0.0",
+    "ora": "^9.4.1"
   },
   "devDependencies": {
-    "@types/node": "^24.0.10",
-    "tsup": "^8.5.0",
+    "@types/node": "^26.6.5",
+    "tsup": "^9.0.0",
     "typedoc": "^0.28.7",
     "typescript": "6.0.3"
   }
